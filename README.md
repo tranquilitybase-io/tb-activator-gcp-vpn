@@ -1,2 +1,2 @@
-# tb-activator-gft-gcp-vpn
+# tb-activator-gcp-vpn
 GCP VPN activator
