@@ -25,10 +25,48 @@ If using the module to create just the left side of the connection then it can b
 An example of how the terraform.tfvars file should look:
 
 ```hcl
+  cloud_router = "tranquility-router"
 
+  gcp_vpc = "main-one"
+
+  gcp_asn = "64513"
+
+  gcp_region = "europe-west2"
+
+  vpn_gw = "vpn-gw-1"
+
+  tunnel0 = "tunnel-1"
+
+  peer_gateway = "vpn-gw-2"
+
+  peer_project_id = "vpn-two"
+
+  tunnel1 = "tunnel-2"
+
+  router1_int0 = "router-1-interface-name-0"
+
+  router1_inside0 = "169.254.6.1/30"
+
+  router1_int1 = "router-1-interface-name-1"
+
+  router1_inside1 = "169.254.7.1/30"
+
+  bgp_peer_1 = "peer-1"
+
+  gcp_asn_two = "64514"
+
+  router1_peer1 = "169.254.6.2"
+
+  bgp_peer_2 = "peer-2"
+
+  router1_peer2 = "169.254.7.2"
+
+  gcp_project_id = "vpn-one"
 ```
 
-You can go to the examples folder, however the usage of the module could be like this in your own main.tf file:
+If using the module to deploying both sides of the connection then refer to the example folder. The example folder demonstrates a use of the module to creating both sides of the connection. 
+
+
 
 
 
