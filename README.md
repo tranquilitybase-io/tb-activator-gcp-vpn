@@ -96,6 +96,9 @@ When making use of the module the following commands should be used in the appro
 | router1_peer1        | BGP peer IP address for the tunnel on interface 0                                                                                                      |  string   |    -    |    yes    |
 | router1_peer2        | BGP IP address for the tunnel on interface 1                                                                                                      |  string   |    -    |    yes    |
 | gcp_asn_two        | ASN used by the peer VPN Gateway                                                                                                      |  string   |    -    |    yes    |
+| peer_project_id        | The ID of the project for where the peer VPN Gateway is created. ID of the project that is on the right side of the connection                                                                                                      |  string   |    -    |    yes    |
+| peer_gateway        | The peer VPN Gateway for the right side of the connection                                                                                                      |  string   |    -    |    yes    |
+
 
 
 
