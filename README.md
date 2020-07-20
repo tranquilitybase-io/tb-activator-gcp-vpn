@@ -77,14 +77,25 @@ When making use of the module the following commands should be used in the appro
 ## Inputs
 | Name               | Description                                                                                                                                                         |  Type  | Default | Required |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----: | :-----: | :------: |
-| project_id         | The ID of the project where this VPC will be created                                                                                                                | string |    -    |   yes    |
-| network            | The name of the network being created                                                                                                                               | string |    -    |   yes    |
-| region             | The region where the gateway and tunnels are going to be created                                                                                                    | string |    -    |   yes    |
-| gateway_name       | The name of the VPN gateway being created                                                                                                                           |  list  |    -    |   yes    |
-| tunnel_name_prefix | The prefix used for the tunnel names. If more than one tunnel_count is specified, the tunnel_count is appended to the end of the tunnel prefix                      | string |    -    |   yes    |
-| tunnel_count       | The amount of tunnels attached to this gateway                                                                                                                      |  int   |    1    |    no    |
-| peer_ips           | List of peer IP's to use, needs a peer IP for each tunnel in tunnel_count. The first peer IP attaches to tunnel #1, second peer IP attaches to tunnel #2, and so on |  list  |    -    |   yes    |
-| ike_version        | Sets the IKE version to use with the tnnels. Defaults to IKEv2                                                                                                      |  int   |    2    |    no    |
+| gcp_project_id         | The ID of the project for where the VPN Gateway is created. ID of the project that is on the left side of the connection                                                                                                                | string |    -    |   yes    |
+| gcp_vpc            | The name of the network for which the resource belongs to                                                                                                                               | string |    -    |   yes    |
+| gcp_region             | The region for which the resource will be located in                                                                                                    | string |    -    |   yes    |
+| cloud_router       | The name of the cloud router which is responsible for routes to be exchanged dynamically                                                                                                                           |  string  |    -    |   yes    |
+| vpn_gw | The VPN Gateway for the left side of the connection                      | string |    -    |   yes    |
+| secret_one       | The secret for the first tunnel                                                                                                                      |  string   |    -    |    yes    |
+| secret_two           | The secret for the second tunnel |  string  |    -    |   yes    |
+| tunnel0        | The tunnel that will be connected to interface 0 on the VPN Gateways                                                                                                      |  string   |    -    |    yes    |
+| tunnel1        | The tunnel that will be connected to interface 1 on the VPN Gateways                                                                                                      |  string   |    -    |    yes    |
+| gcp_asn        | The private asn that is used for all BGP sessions managed by the cloud router on the left side of the connection                                                                                                      |  string   |    -    |    yes    |
+| router1_int0        | The name of the cloud router interface on interface 0                                                                                                      |  string   |    -    |    yes    |
+| router1_int1        | The name of the cloud router interface on interface 1                                                                                                      |  string   |    -    |    yes    |
+| router1_inside0        | BGP IP address for the tunnel on interface 0                                                                                                      |  string   |    -    |    yes    |
+| router1_inside1        | BGP IP address for the tunnel on interface 1                                                                                                      |  string   |    -    |    yes    |
+| bgp_peer_1        | Name of BGP peer on interface 0                                                                                                      |  string   |    -    |    yes    |
+| bgp_peer_2        | Name of BGP peer on interface 1                                                                                                      |  string   |    -    |    yes    |
+| router1_peer1        | BGP peer IP address for the tunnel on interface 0                                                                                                      |  string   |    -    |    yes    |
+| router1_peer2        | BGP IP address for the tunnel on interface 1                                                                                                      |  string   |    -    |    yes    |
+| gcp_asn_two        | ASN used by the peer VPN Gateway                                                                                                      |  string   |    -    |    yes    |
 
 
 
