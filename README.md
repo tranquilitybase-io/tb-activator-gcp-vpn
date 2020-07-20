@@ -99,6 +99,35 @@ When making use of the module the following commands should be used in the appro
 | peer_project_id        | The ID of the project for where the peer VPN Gateway is created. ID of the project that is on the right side of the connection                                                                                                      |  string   |    -    |    yes    |
 | peer_gateway        | The peer VPN Gateway for the right side of the connection                                                                                                      |  string   |    -    |    yes    |
 
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| vpn_one_interface_0_ip_address | The IP address associated with interface 0 of the left VPN Gateway |
+| vpn_one_interface_1_ip_address | The IP address associated with interface 1 of the left VPN Gateway |
+
+### Configure a Service Account
+In order to utilise this module you must have a Service Account with the following roles:
+- roles/compute.networkAdmin on the organization
+You must also have the following permission on the project where the peer gateway is located in order to interact with it:
+- compute.vpngateways.use
+
+
+### Enable API's
+In order to operate with the Service Account you must activate the following API on the project where the Service Account was created:
+- Compute Engine API - compute.googleapis.com
+
+## Development
+### File structure
+The project has the following folders and files:
+
+- /: root folder
+- /example: example for using this module
+- /main.tf: calling module, calls the vpn module
+- /output.tf: the outputs of the module
+- /variables.tf: all the variables for the module
+- /vpn: module that is responsible for the setup of the vpn
+- /README.md: this file
 
 
 
