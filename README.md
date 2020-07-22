@@ -109,6 +109,7 @@ When making use of the module the following commands should be used in the appro
 ### Configure a Service Account
 In order to utilise this module you must have a Service Account with the following roles:
 - roles/compute.networkAdmin on the organization
+
 You must also have the following permission on the project where the peer gateway is located in order to interact with it:
 - compute.vpngateways.use
 
