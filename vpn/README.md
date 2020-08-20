@@ -1,31 +1,15 @@
-# Terraform Google Cloud Platform - GCP HA VPN Module
+# Google Cloud HA VPN Module
+This module is responsible for deploying all of the infrastructure required for the setup of a GCP-GCP HA VPN.
 
-A Terraform module for creating HA VPN connection between 2 GCP networks.
+An example use of this module to create the left side of a connection and to create both sides of a connection can be found below:
 
-This modules makes it easy to set up VPN connectivity in GCP by defining your gateways and tunnels.
+## Examples
 
-It supports creating:
-
-- A Google VPN Gateway
-- Tunnels connecting the gateway to defined GCP peer
-- Dynamic routes with cloud router
-
-## Compatibility
-
-This module is meant for use with Terraform >=0.12.
-
-## Usage
-
-This module can be used to create the vpn gateways, tunnels etc on both sides of the connection or just the left side. 
-
-If using the module to create just the left side of the connection then it can be done in the following manner:
-1) Create VPN Gateway on right side of the connection either through GCP console or using this module.
-2) Generate terraform.tfvars file in the root folder. This file should assign values to the variables declared in variables.tf
-3) run `terraform apply` to apply the infrastructure build
-
-An example of how the terraform.tfvars file should look:
-
+### Left Side Only
 ```hcl
+module "vpn_ha-1" {
+  source = "./vpn"
+
   cloud_router = "tranquility-router"
 
   gcp_vpc = "main-one"
@@ -36,11 +20,15 @@ An example of how the terraform.tfvars file should look:
 
   vpn_gw = "vpn-gw-1"
 
+  secret_one = var.secret_one
+
+  secret_two = var.secret_two
+
   tunnel0 = "tunnel-1"
 
   peer_gateway = "vpn-gw-2"
 
-  peer_project_id = "vpn-two"
+  peer_project_id = "example-two"
 
   tunnel1 = "tunnel-2"
 
@@ -62,17 +50,105 @@ An example of how the terraform.tfvars file should look:
 
   router1_peer2 = "169.254.7.2"
 
-  gcp_project_id = "vpn-one"
+  gcp_project_id = "example-one"
+  }
 ```
 
-If using the module to deploying both sides of the connection then refer to the example folder. The example folder demonstrates a use of the module to creating both sides of the connection. 
+### Both Sides
+```hcl
+module "vpn_ha-1" {
+  source = "./vpn"
 
-When making use of the module the following commands should be used in the appropriate folders::
+  cloud_router = "tranquility-router"
 
-- `terraform init` to get the plugins
-- `terraform plan` to see the infrastructure plan
-- `terraform apply` to apply the infrastructure build
-- `terraform destroy` to destroy the built infrastructure
+  gcp_vpc = "main-one"
+
+  gcp_asn = "64513"
+
+  gcp_region = "europe-west2"
+
+  vpn_gw = "vpn-gw-1"
+
+  secret_one = var.secret_one
+
+  secret_two = var.secret_two
+
+  tunnel0 = "tunnel-1"
+
+  peer_gateway = "vpn-gw-2"
+
+  peer_project_id = "example-two"
+
+  tunnel1 = "tunnel-2"
+
+  router1_int0 = "router-1-interface-name-0"
+
+  router1_inside0 = "169.254.6.1/30"
+
+  router1_int1 = "router-1-interface-name-1"
+
+  router1_inside1 = "169.254.7.1/30"
+
+  bgp_peer_1 = "peer-1"
+
+  gcp_asn_two = "64514"
+
+  router1_peer1 = "169.254.6.2"
+
+  bgp_peer_2 = "peer-2"
+
+  router1_peer2 = "169.254.7.2"
+
+  gcp_project_id = "example-one"
+  }
+  
+module "vpn_ha-2" {
+  source = "./vpn"
+
+  cloud_router = "tranquility-router-two"
+
+  gcp_vpc = "main-two"
+
+  gcp_asn = "64514"
+
+  gcp_region = "europe-west2"
+
+  vpn_gw = "vpn-gw-2"
+
+  secret_one = var.secret_one
+
+  secret_two = var.secret_two
+
+  tunnel0 = "tunnel-3"
+
+  peer_gateway = "vpn-gw-1"
+
+  peer_project_id = "example-one"
+
+  tunnel1 = "tunnel-4"
+
+  router1_int0 = "router-2-interface-name-0"
+
+  router1_inside0 = "169.254.6.2/30"
+
+  router1_int1 = "router-2-interface-name-1"
+
+  router1_inside1 = "169.254.7.2/30"
+
+  bgp_peer_1 = "peer-3"
+
+  gcp_asn_two = "64513"
+
+  router1_peer1 = "169.254.6.1"
+
+  bgp_peer_2 = "peer-4"
+
+  router1_peer2 = "169.254.7.1"
+
+  gcp_project_id = "example-two"
+
+}  
+```
 
 ## Inputs
 | Name               | Description                                                                                                                                                         |  Type  | Default | Required |
@@ -105,32 +181,4 @@ When making use of the module the following commands should be used in the appro
 |------|-------------|
 | vpn_one_interface_0_ip_address | The IP address associated with interface 0 of the left VPN Gateway |
 | vpn_one_interface_1_ip_address | The IP address associated with interface 1 of the left VPN Gateway |
-
-### Configure a Service Account
-In order to utilise this module you must have a Service Account with the following roles:
-- roles/compute.networkAdmin on the organization
-
-You must also have the following permission on the project where the peer gateway is located in order to interact with it:
-- compute.vpngateways.use
-
-
-### Enable API's
-In order to operate with the Service Account you must activate the following API on the project where the Service Account was created:
-- Compute Engine API - compute.googleapis.com
-
-## Development
-### File structure
-The project has the following folders and files:
-
-- /: root folder
-- /example: example for using this module
-- /main.tf: calling module, calls the vpn module
-- /output.tf: the outputs of the module
-- /variables.tf: all the variables for the module
-- /vpn: module that is responsible for the setup of the vpn
-- /README.md: this file
-
-
-
-
 
